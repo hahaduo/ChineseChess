@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
@@ -27,11 +28,12 @@ public class ChessController {
 
 
     @RequestMapping(value = "index.do")
-    public String index(Model model) {
+    public String index(HttpServletRequest request,Model model) {
         ChessCompetition cc = ChessCompetition.getInstance();
 
         Map map = cc.getDownBoard().buildBoardMap("down");
         model.mergeAttributes(map);
+        request.setAttribute("chess_down_30","cvcvcv");
 
         return "index.jsp";
     }
