@@ -106,7 +106,7 @@ public class ChessBoard {
         for (Chess[] rChess : board) {
             j=0;
             for (Chess cChess : rChess) {
-                if(cChess.getStatus() == ChessStatus.BLANK) {
+                if(cChess==null||cChess.getStatus() == ChessStatus.BLANK) {
                     img = "";
                 }
                 else if (cChess.getStatus() == ChessStatus.BACK) {
@@ -120,7 +120,7 @@ public class ChessBoard {
                 }
 
 
-                map.put("chess_" + pos + "_" + i + "" + j, img);
+                map.put("chess_" + pos + "_" + i + "_" + j, img);
                 j++;
             }
             i++;
@@ -149,7 +149,7 @@ public class ChessBoard {
                 }
 
                 String ss = "<img src=\"resources/Images/chess/" + picName + ".gif\" alt=\"\"/>";
-                map.put("chess_down_" + i + "" + j, ss);
+                map.put("chess_down_" + i + "_" + j, ss);
                 j++;
             }
             i++;
@@ -159,4 +159,15 @@ public class ChessBoard {
     }
 
 
+    public void remove(int x, int y) {
+        board[x][y]=null;
+    }
+
+    public Chess fetch(int x, int y) {
+        return board[x][y];
+    }
+
+    public void add(Chess fromChess, int x, int y) {
+        board[x][y]=fromChess;
+    }
 }

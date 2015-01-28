@@ -31,11 +31,24 @@ public class ChessController {
     public String index(HttpServletRequest request,Model model) {
         ChessCompetition cc = ChessCompetition.getInstance();
 
-        Map map = cc.getDownBoard().buildBoardMap("down");
-        model.mergeAttributes(map);
-        request.setAttribute("chess_down_30","cvcvcv");
+        Map downMap = cc.getDownBoard().buildBoardMap("down");
+        Map upMap = cc.getUpBoard().buildBoardMap("up");
+        model.mergeAttributes(upMap);
+        model.mergeAttributes(downMap);
 
         return "index.jsp";
+    }
+
+    @RequestMapping(value = "refresh.do")
+    public String refresh(HttpServletRequest request,Model model) {
+        ChessCompetition cc = ChessCompetition.getInstance();
+
+        Map downMap = cc.getDownBoard().buildBoardMap("down");
+        Map upMap = cc.getUpBoard().buildBoardMap("up");
+        model.mergeAttributes(upMap);
+        model.mergeAttributes(downMap);
+
+        return "ChessBoard.ftl";
     }
 
     @RequestMapping(value = "checkPlayer.do")
@@ -54,10 +67,36 @@ public class ChessController {
     }
 
     @RequestMapping(value = "turnOver/{x}/{y}")
-    public String hello2(@PathVariable int x,@PathVariable int y,Model model) {
+    public String turnOver(@PathVariable int x,@PathVariable int y,Model model) {
 
         ChessCompetition cc = ChessCompetition.getInstance();
         cc.turnOver(x,y);
+        Map downMap = cc.getDownBoard().buildBoardMap("down");
+        Map upMap = cc.getUpBoard().buildBoardMap("up");
+        model.mergeAttributes(upMap);
+        model.mergeAttributes(downMap);
+
+        return "ChessBoard.ftl";
+    }
+
+    @RequestMapping(value = "restartGame")
+    public String restartGame(Model model) {
+
+        ChessCompetition cc = ChessCompetition.getInstance();
+        cc.restart();
+        Map downMap = cc.getDownBoard().buildBoardMap("down");
+        Map upMap = cc.getUpBoard().buildBoardMap("up");
+        model.mergeAttributes(upMap);
+        model.mergeAttributes(downMap);
+
+        return "ChessBoard.ftl";
+    }
+
+    @RequestMapping(value = "moveChess/{from}/{to}")
+    public String moveChess(@PathVariable String from,@PathVariable String to,Model model) {
+
+        ChessCompetition cc = ChessCompetition.getInstance();
+        cc.moveChess(from,to);
         Map downMap = cc.getDownBoard().buildBoardMap("down");
         Map upMap = cc.getUpBoard().buildBoardMap("up");
         model.mergeAttributes(upMap);
